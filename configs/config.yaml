@@ -1,0 +1,93 @@
+project:
+  seed: 42
+  experiment_name: "baseline_rdkit_descriptors"
+  n_jobs: -1
+
+paths:
+  train_csv: "data/raw/train.csv"
+  test_csv: "data/raw/test.csv"
+  sample_submission_csv: "data/raw/sample_submission.csv"
+  processed_dir: "data/processed"
+  models_dir: "models"
+  submissions_dir: "data/submissions"
+
+data:
+  id_col: "index"
+  target_cols: ["IC50, mM", "CC50, mM", "SI"]
+  submission_target_cols: ["IC50", "CC50", "SI"]
+  smiles_col: null          # set to e.g. "SMILES" if available
+  drop_cols: []             # fill with leakage/non-feature columns if discovered
+
+features:
+  use_existing_numeric: true
+  use_smiles_basic: false
+  use_rdkit_descriptors: false
+  use_morgan_fp: false
+  morgan_radius: 2
+  morgan_n_bits: 2048
+  cache_features: true
+  remove_constant_features: true
+  missing_strategy: "median"
+
+validation:
+  scheme: "kfold"           # kfold | stratified_bins | groupkfold
+  n_splits: 5
+  target_for_bins: "IC50, mM"
+  n_bins: 10
+  group_col: null           # canonical_smiles when smiles are available
+
+training:
+  target_transform: "log1p" # none | log1p
+  si_strategy: "ratio"     # direct | ratio_cc50_ic50 | blend_direct_ratio
+  ratio_weight: 0.5
+  model_name: "extratrees"  # dummy | ridge | random_forest | extratrees | histgb | lightgbm | catboost | xgboost
+  save_oof: true
+  clip_predictions_to_nonnegative: true
+
+models:
+  ridge:
+    alpha: 10.0
+  random_forest:
+    n_estimators: 600
+    max_depth: null
+    min_samples_leaf: 2
+    random_state: 42
+    n_jobs: -1
+  extratrees:
+    n_estimators: 800
+    max_depth: null
+    min_samples_leaf: 1
+    max_features: 0.7
+    random_state: 42
+    n_jobs: -1
+  histgb:
+    learning_rate: 0.04
+    max_iter: 500
+    l2_regularization: 0.05
+    random_state: 42
+  lightgbm:
+    n_estimators: 3000
+    learning_rate: 0.02
+    num_leaves: 31
+    subsample: 0.8
+    colsample_bytree: 0.8
+    reg_alpha: 0.1
+    reg_lambda: 1.0
+    random_state: 42
+    n_jobs: -1
+  catboost:
+    iterations: 3000
+    learning_rate: 0.03
+    depth: 6
+    loss_function: "RMSE"
+    random_seed: 42
+    verbose: false
+  xgboost:
+    n_estimators: 2500
+    learning_rate: 0.02
+    max_depth: 4
+    subsample: 0.8
+    colsample_bytree: 0.8
+    reg_lambda: 2.0
+    random_state: 42
+    n_jobs: -1
