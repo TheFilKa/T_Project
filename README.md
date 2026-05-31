@@ -252,34 +252,3 @@ n_estimators: 1000
 ### Seed averaging
 
 Усреднение нескольких seed не улучшило Kaggle score относительно одиночного seed 72. Метод исключен из финала, но скрипт `average_submissions.py` оставлен для повторной проверки.
-
-## Чек-лист перед Kaggle submission
-
-- [ ] В `data/raw/` лежат `train.csv`, `test.csv`, `sample_submission.csv`.
-- [ ] В `configs/config.yaml` стоят seed `72`, `random_state: 72`, `max_features: 0.75`.
-- [ ] `training.si_strategy: "ratio"`.
-- [ ] `data.drop_cols: ["index"]`.
-- [ ] Команда `python run_pipeline.py --config configs/config.yaml --stage all` проходит без ошибок.
-- [ ] В submission нет `NaN`, `inf`, отрицательных значений.
-- [ ] Submission содержит ровно колонки `index`, `IC50`, `CC50`, `SI`.
-- [ ] Не использовались test targets, public leaderboard не использовался для ручной подгонки target-значений.
-
-## Git hygiene
-
-В репозиторий не должны попадать:
-
-- `.venv/`;
-- `__pycache__/`;
-- `data/raw/*.csv`;
-- `data/submissions/*.csv`;
-- `models/*.joblib`, OOF и metrics;
-- локальные cache/log файлы.
-
-Если такие файлы уже были добавлены в Git, удалить их из индекса можно так:
-
-```bash
-git rm --cached -r .venv data/raw data/processed data/submissions models src/__pycache__
-git add .gitignore .gitattributes README.md configs/config.yaml src/ run_pipeline.py requirements.txt average_submissions.py
-git commit -m "Clean repository and document best RandomForest baseline"
-git push origin main
-```
