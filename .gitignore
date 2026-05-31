@@ -1,0 +1,70 @@
+# Python cache / compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# IDE / editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
+logs/
+
+# Local environment variables
+.env
+.env.*
+
+# Data files: keep directories, do not commit competition data
+/data/raw/*
+!/data/raw/.gitkeep
+/data/processed/*
+!/data/processed/.gitkeep
+
+# Generated submissions: keep directory, do not commit generated CSVs
+/data/submissions/*
+!/data/submissions/.gitkeep
+
+# Trained models and experiment artifacts
+/models/*
+!/models/.gitkeep
+*.joblib
+*.pkl
+*.pickle
+
+# Reports generated locally
+/reports/figures/*
+!/reports/figures/.gitkeep
+/reports/*.html
+
+# Cache
+.cache/
+.cache_*/
+*.cache
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
