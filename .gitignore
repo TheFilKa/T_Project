@@ -1,1 +1,65 @@
-models/baseline_rdkit_descriptors/models.joblib
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# IDE / editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
+logs/
+
+# Local environment variables
+.env
+.env.*
+
+# Raw and processed data
+data/raw/
+data/processed/
+
+# Generated submissions
+data/submissions/*.csv
+
+# Trained models and artifacts
+models/
+*.joblib
+*.pkl
+*.pickle
+
+# Reports generated locally
+reports/figures/
+reports/*.html
+
+# Cache
+.cache/
+.cache_*/
+*.cache
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/

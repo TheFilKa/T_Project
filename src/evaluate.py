@@ -18,15 +18,18 @@ def apply_si_strategy(pred: pd.DataFrame, config: dict) -> pd.DataFrame:
         return pred
 
     if strategy == "ratio":
-        eps = 1e-9
-        pred[si_col] = pred[cc50_col] / pred[ic50_col].clip(lower=eps)
+        ic50_floor = config["training"].get("ic50_floor_for_si", 1.0)
+        pred[si_col] = pred[cc50_col] / pred[ic50_col].clip(lower=ic50_floor)
         return pred
 
     if strategy == "blend":
-        eps = 1e-9
-        ratio_si = pred[cc50_col] / pred[ic50_col].clip(lower=eps)
+        ic50_floor = config["training"].get("ic50_floor_for_si", 1e-9)
+        alpha = config["training"].get("si_blend_alpha", 0.5)
+
+        ratio_si = pred[cc50_col] / pred[ic50_col].clip(lower=ic50_floor)
         direct_si = pred[si_col]
-        pred[si_col] = 0.5 * direct_si + 0.5 * ratio_si
+
+        pred[si_col] = alpha * direct_si + (1.0 - alpha) * ratio_si
         return pred
 
     raise ValueError(f"Unknown si_strategy: {strategy}")
